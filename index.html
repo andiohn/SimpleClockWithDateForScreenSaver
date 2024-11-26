@@ -24,11 +24,11 @@
         .clock {
             font-size: 15vw; /* Font size scales with viewport width */
             margin-bottom: 0rem;
-            font-weight: 600;
+            font-weight: 400;
         }
         .date {
             font-size: 4vw; /* Font size scales with viewport width */
-            font-weight: 600;
+            font-weight: 400;
         }
 
         .wlr {
@@ -44,12 +44,8 @@
 </head>
 <body>
     <!-- Visit This URL https://sharpweather.com/widget/r/#c=cbkg=rgb(69,90,100)&c=codd=rgb(84,110,122) and edit your Weather Widget. Else, if you don't want it, delete or comment out this weather block. -->
-
-    <!-- Weather block Starts 
-    <div id="id4167f8d5860c6" a='{"t":"r","v":"1.2","lang":"en","locs":[462],"ssot":"c","sics":"ms","cbkg":"#FFFFFF00","cfnt":"rgba(255,255,255,1)","codd":"#FFFFFF00","cont":"rgba(255,255,255,0.8313725490196079)","stof":"5"}'>Weather Data Source: <a href="https://sharpweather.com/weather_zagreb/30_days/">weather Zagreb 30 days</a></div><script async src="https://static1.sharpweather.com/widgetjs/?id=id4167f8d5860c6"></script>
-    Weather block Ends -->
-
-
+ 
+    <div id="id4167f8d5860c6" a='{"t":"r","v":"1.2","lang":"en","locs":[734],"ssot":"c","sics":"ms","cbkg":"#FFFFFF00","cfnt":"rgba(255,255,255,1)","codd":"#FFFFFF00","cont":"rgba(255,255,255,0.8313725490196079)","stof":"5"}'>Weather Data Source: <a href="https://sharpweather.com/weather_edmonton/30_days/">weather Edmonton 30 days</a></div><script async src="https://static1.sharpweather.com/widgetjs/?id=id4167f8d5860c6"></script>
     <div class="clock" id="clock"></div>
     <div class="date" id="date"></div>
 
@@ -60,9 +56,9 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             //// Croatian
-            const days = ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'];
+            // const days = ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'];
             //// English
-            // const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             //// Spanish
             // const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
             //// French
@@ -114,7 +110,7 @@
 
         setInterval(updateTime, 1000);
         setInterval(toggleClockMargin, 5 * 60 * 1000); // Toggle margin every 5 minutes
-        // setInterval(toggleWeatherPosition, 5 * 60 * 1000); // Toggle margin every 5 minutes
+        setInterval(toggleWeatherPosition, 5 * 60 * 1000); // Toggle margin every 5 minutes
         updateTime(); // Initial call to display immediately
     </script>
 </body>
