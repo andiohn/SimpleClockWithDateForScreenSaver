@@ -11,7 +11,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: black; /* Fallback color */
+            background-color: black;
             transition: background-image 1s ease-in-out;
             color: white;
             font-family: Arial, sans-serif;
@@ -36,12 +36,13 @@
     <script>
         const validImages = [];
         const extensions = ['jpg', 'jpeg', 'png'];
+        const baseUrl = 'https://raw.githubusercontent.com/andiohn/SimpleClockWithDateForScreenSaver/main/images/';
 
         // Preload images and check if they exist
         async function preloadImages() {
             for (let i = 1; i <= 99; i++) {
                 for (const ext of extensions) {
-                    const src = `images/images${i}.${ext}`;
+                    const src = `${baseUrl}images${i}.${ext}`;
                     if (await checkImageExists(src)) {
                         validImages.push(src);
                     }
