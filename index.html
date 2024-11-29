@@ -3,115 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Clock and Date</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>Dynamic Background with Clock</title>
     <style>
         body {
-            background-color: black;
+            margin: 0;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: black; /* Fallback color */
+            transition: background-image 1s ease-in-out;
             color: white;
-            font-family: "Outfit", sans-serif;
-            font-optical-sizing: auto;
-            font-style: normal;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
         .clock {
-            font-size: 15vw; /* Font size scales with viewport width */
-            margin-bottom: 0rem;
-            font-weight: 400;
+            font-size: 15vw;
+            margin-bottom: 1rem;
         }
         .date {
-            font-size: 4vw; /* Font size scales with viewport width */
-            font-weight: 400;
-        }
-
-        .wlr {
-            font-family: "Outfit", sans-serif!important;
-            font-optical-sizing: auto;
-            font-style: normal;
-            font-weight: 600;
-            position: absolute;
-            top: 15px;
-            right: 20px;
+            font-size: 4vw;
         }
     </style>
 </head>
 <body>
-    <!-- Visit This URL https://sharpweather.com/widget/r/#c=cbkg=rgb(69,90,100)&c=codd=rgb(84,110,122) and edit your Weather Widget. Else, if you don't want it, delete or comment out this weather block. -->
- 
-    <div id="id8a6740f8a368f" a='{"t":"r","v":"1.2","lang":"en","locs":[734],"ssot":"c","sics":"ms","cbkg":"#FFFFFF00","cfnt":"rgba(255,255,255,1)","codd":"#FFFFFF00","cont":"rgba(255,255,255,0.73)","stof":"7","sfnt":"a"}'>Weather Data Source: <a href="https://sharpweather.com/weather_edmonton/30_days/">weather Edmonton 30 days</a></div><script async src="https://static1.sharpweather.com/widgetjs/?id=id8a6740f8a368f"></script>
     <div class="clock" id="clock"></div>
     <div class="date" id="date"></div>
 
     <script>
+        const validImages = [];
+        const extensions = ['jpg', 'jpeg', 'png'];
+
+        // Preload images and check if they exist
+        async function preloadImages() {
+            for (let i = 1; i <= 99; i++) {
+                for (const ext of extensions) {
+                    const src = `images/images${i}.${ext}`;
+                    if (await checkImageExists(src)) {
+                        validImages.push(src);
+                    }
+                }
+            }
+            console.log("Valid Images:", validImages);
+        }
+
+        // Check if the image exists
+        function checkImageExists(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+            });
+        }
+
+        // Change the background to a random valid image
+        function changeBackground() {
+            if (validImages.length === 0) {
+                console.error("No valid images found!");
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * validImages.length);
+            document.body.style.backgroundImage = `url('${validImages[randomIndex]}')`;
+        }
+
+        // Update the clock and date every second
         function updateTime() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            //// Croatian
-            // const days = ['Nedjelja', 'Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota'];
-            //// English
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            //// Spanish
-            // const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-            //// French
-            // const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-            //// German
-            // const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-            //// Italian
-            // const days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
-            //// Portuguese
-            // const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-            //// Dutch
-            // const days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
-            //// Russian
-            // const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-            //// Chinese (Simplified)
-            // const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-            //// Japanese
-            // const days = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
-            //// Arabic
-            // const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            //// Hindi
-            // const days = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
-            //// Greek
-            // const days = ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'];
             const day = days[now.getDay()];
-            const date = now.toLocaleDateString('de-DE');
+            const date = now.toLocaleDateString();
 
             document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
             document.getElementById('date').textContent = `${day}, ${date}`;
         }
 
-        function toggleClockMargin() {
-            const clockElement = document.querySelector('.clock');
-            if (clockElement.style.marginBottom === '4rem') {
-                clockElement.style.marginBottom = '0rem';
+        // Initialize the page by preloading images and setting up the clock
+        async function initialize() {
+            updateTime(); // Display clock immediately
+            setInterval(updateTime, 1000); // Update time every second
+
+            await preloadImages(); // Preload images
+
+            if (validImages.length > 0) {
+                changeBackground(); // Set initial background if images are valid
+                setInterval(changeBackground, 15000); // Rotate background every 15 seconds
             } else {
-                clockElement.style.marginBottom = '4rem';
+                console.error("No images to display.");
             }
         }
 
-        function toggleWeatherPosition() {
-            const weatherElement = document.querySelector('.wlr');
-            if (weatherElement.style.top === '25px') {
-                weatherElement.style.top = '15px';
-            } else {
-                weatherElement.style.top = '25px';
-            }
-        }
-
-        setInterval(updateTime, 1000);
-        setInterval(toggleClockMargin, 5 * 60 * 1000); // Toggle margin every 5 minutes
-        setInterval(toggleWeatherPosition, 5 * 60 * 1000); // Toggle margin every 5 minutes
-        updateTime(); // Initial call to display immediately
+        initialize(); // Start the script
     </script>
 </body>
 </html>
